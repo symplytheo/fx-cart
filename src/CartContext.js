@@ -6,7 +6,6 @@ const CartDispatchContext = createContext()
 let CartLS = []
 if (typeof window !== "undefined") {
   CartLS = JSON.parse(localStorage.getItem('cart'))
-  console.log(CartLS)
 }
 
 const setCartLS = (payload) => {
@@ -71,7 +70,7 @@ const reducer = (state, action) => {
 }
 
 export const CartProvider = ({ children }) => {
-  const cart = CartLS ? [...CartLs] : []
+  const cart = CartLS ? [...CartLS] : []
   const [state, dispatch] = useReducer(reducer, cart)
 
   return (

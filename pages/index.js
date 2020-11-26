@@ -25,9 +25,13 @@ const HomePage = ({ data }) => {
 }
 
 export async function getStaticProps() {
-  const res = await fetch(`https://fakestoreapi.com/products?limit=12`)
-  const data = await res.json()
-
+  let data = []
+  try {
+    const res = await fetch(`https://fakestoreapi.com/products?limit=12`)
+    data = await res.json()
+  } catch (error) {
+    console.log(error)
+  }
   if (!data) {
     return {
       notFound: true,

@@ -168,6 +168,7 @@ export default function Header() {
                   fullWidth
                   variant="contained"
                   color="primary"
+                  naked
                   component={Link}
                   href="/checkout"
                 >
@@ -182,6 +183,7 @@ export default function Header() {
                 variant="contained"
                 color="primary"
                 component={Link}
+                naked
                 href="/"
               >
                 Continue shopping
