@@ -1,9 +1,11 @@
 import { 
-  Grid, Paper, Box, Typography, TextField, Button, Container, CircularProgress 
+  Grid, Paper, Box, Typography, TextField, Button, Container, 
+  CircularProgress, Dialog, DialogContent, DialogTitle, DialogContentText
 } from '@material-ui/core'
 import CartItem from '../components/parts/CartItem'
 import Layout from '../components/Layout'
 import Head from '../components/core/Head'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { useCart } from '../src/CartContext'
 import { useState } from 'react'
 
@@ -18,6 +20,8 @@ const Checkout = () => {
     city: '',
     state: ''
   })
+
+  const [openDialog, setDialog] = useState(false)
 
   const [loading, setLoading] = useState(false)
   const startLoading = () => {
@@ -62,7 +66,7 @@ const Checkout = () => {
       address: user.address,
       city: user.city,
       state: user.state,
-      holder: card.holer,
+      holder: card.hodler,
       number: card.number,
       exp: card.exp,
       cvv: card.cvv,
@@ -70,9 +74,10 @@ const Checkout = () => {
     if (!loading) {
       startLoading()
       //
-      await setTimeout(() => {
+      setTimeout(() => {
         console.log(data)
         stopLoading()
+        setDialog(true)
       }, 1500)
     }
   }
@@ -91,6 +96,7 @@ const Checkout = () => {
             <Typography variant="h6">
               Order Summary
             </Typography>
+            <Button onClick={() => setOpen(true)}>Show</Button>
             <Grid container>
               <Grid item xs={12}>
                 {cart.map(item => (
@@ -269,6 +275,23 @@ const Checkout = () => {
           </Grid>
         </Grid>
       </Container>
+      <Dialog
+        open={openDialog}
+        onClose={() => setDialog(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <span style={{textAlign: 'center', display: 'block'}}>
+              <span style={{display: 'block'}}>
+                <big><b>Payment was Successful!</b></big>
+              </span>
+              <CheckCircleIcon style={{color: 'green', fontSize: 100}} />
+            </span>
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
     </Layout>
   )
 }
