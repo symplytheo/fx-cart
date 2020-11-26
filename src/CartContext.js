@@ -3,11 +3,6 @@ import { useReducer, useContext, createContext } from 'react'
 const CartStateContext = createContext()
 const CartDispatchContext = createContext()
 
-let CartLS = []
-if (typeof window !== "undefined") {
-  CartLS = JSON.parse(localStorage.getItem('cart'))
-}
-
 const setCartLS = (payload) => {
   if (typeof window !== "undefined") {
     localStorage.setItem('cart', JSON.stringify(payload))
@@ -45,24 +40,29 @@ const reducer = (state, action) => {
       setCartLS(items)
       return items
     case 'INCREASE_QTY':
-      state.forEach(el => {
+      const new_state = state.map(el => {
         if (el.id === action.payload) {
           el.quantity = el.quantity + 1
         }
+        return el
       })
-      setCartLS(state)
-      return state
+      setCartLS(new_state)
+      return new_state
     case 'DECREASE_QTY':
-      state.forEach(el => {
+      const newState = state.map(el => {
         if (el.id === action.payload) {
           el.quantity = el.quantity > 1 ? el.quantity - 1 : 1
         }
+        return el
       })
-      setCartLS(state)
-      return state
+      setCartLS(newState)
+      return newState
     case 'CLEAR':
       state = []
       removeCartLS()
+      return state
+    case 'SET_CART':
+      state = [...action.payload]
       return state
     default:
       throw new Error(`Unknown action: ${action.type}`)
@@ -70,8 +70,7 @@ const reducer = (state, action) => {
 }
 
 export const CartProvider = ({ children }) => {
-  const cart = CartLS ? [...CartLS] : []
-  const [state, dispatch] = useReducer(reducer, cart)
+  const [state, dispatch] = useReducer(reducer, [])
 
   return (
     <CartDispatchContext.Provider value={dispatch}>
