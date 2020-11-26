@@ -154,11 +154,10 @@ export default function Header() {
               <Box>
                 <Button
                   size="small"
-                  variant="text"
-                  color="secondary" 
+                  style={{color: 'grey'}}
                   onClick={() => dispatch({ type: 'CLEAR' })}
                 >
-                  Clear items
+                  Clear Items
                 </Button>
                 <Typography gutterBottom component="h2" variant="h5" align="right">
                   ${!cart.length ? 0 : cartTotal.toFixed(2)}
