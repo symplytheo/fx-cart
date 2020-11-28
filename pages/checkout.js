@@ -60,16 +60,9 @@ const Checkout = () => {
     e.preventDefault()
 
     const data = {
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      address: user.address,
-      city: user.city,
-      state: user.state,
-      holder: card.hodler,
-      number: card.number,
-      exp: card.exp,
-      cvv: card.cvv,
+      billing: {...user},
+      payment: {...card},
+      orders: [...cart]
     }
     if (!loading) {
       startLoading()
@@ -78,7 +71,7 @@ const Checkout = () => {
         console.log(data)
         stopLoading()
         setDialog(true)
-      }, 1500)
+      }, 2000)
     }
   }
 
@@ -96,7 +89,6 @@ const Checkout = () => {
             <Typography variant="h6">
               Order Summary
             </Typography>
-            <Button onClick={() => setOpen(true)}>Show</Button>
             <Grid container>
               <Grid item xs={12}>
                 {cart.map(item => (
